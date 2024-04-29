@@ -25,6 +25,7 @@ namespace HiringPortalWebAPI.Controllers
             _employeeRepository = employeeRepository;
         }
 
+        //Admin Login
         [HttpPost("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(string userName,string password)
@@ -55,6 +56,7 @@ namespace HiringPortalWebAPI.Controllers
             }
         }
 
+        //Method for creating jobs
         [HttpPost("CreateJob")]
         public async Task<IActionResult> CreateJob([FromBody] Job jobInput)
         {
@@ -69,6 +71,7 @@ namespace HiringPortalWebAPI.Controllers
             }
         }
 
+        //Method for adding panelists
         [HttpPost("AddPanelist")]
         public async Task<IActionResult> AddPanelist([FromBody] Panelist input)
         {
@@ -97,6 +100,7 @@ namespace HiringPortalWebAPI.Controllers
             }
         }
 
+        //Method for adding candidate profiles
         [HttpPost("AddCandidateProfile")]
         public async Task<IActionResult> AddCandidateProfile([FromBody] Candidate input)
         {
@@ -111,6 +115,7 @@ namespace HiringPortalWebAPI.Controllers
             }
         }
 
+        //Method to get all panelists
         [HttpGet("GetAllPanelists")]
         public async Task<IActionResult> GetAllPanelists()
         {
