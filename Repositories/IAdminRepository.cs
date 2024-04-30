@@ -13,5 +13,9 @@ namespace HiringPortalWebAPI.Repositories
         Task<Credential> CreateCredentials(Credential credential);
 
         Task<List<Panelist>> GetPanelists();
+
+        Task<List<Job>> GetJobs();
+        Task<List<Candidate>> GetCandidateProfiles();
+
     }
 }

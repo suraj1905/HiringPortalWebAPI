@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace HiringPortalWebAPI.Models;
 
@@ -23,8 +24,10 @@ public partial class Panelist
 
     public string Category { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual ICollection<Credential> Credentials { get; set; } = new List<Credential>();
 
+    [JsonIgnore]
     public virtual ICollection<Interview> Interviews { get; set; } = new List<Interview>();
 
     public virtual ICollection<Slot> Slots { get; set; } = new List<Slot>();

@@ -31,8 +31,13 @@ public partial class HiringPortalDbContext : DbContext
     public virtual DbSet<Slot> Slots { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql(_configuration.GetConnectionString("ProdDB"));
+     {
+        optionsBuilder.UseNpgsql(_configuration.GetConnectionString("ProdDB"),builder =>
+        {
+            builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+        });
 
+     } 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Admin>(entity =>
@@ -182,6 +187,8 @@ public partial class HiringPortalDbContext : DbContext
             entity.Property(e => e.DateAvailable).HasColumnName("date_available");
             entity.Property(e => e.PanelistId).HasColumnName("panelist_id");
             entity.Property(e => e.TimeAvailable).HasColumnName("time_available");
+            entity.Property(e => e.IsBooked).HasColumnName("is_booked");
+
 
             entity.HasOne(d => d.Panelist).WithMany(p => p.Slots)
                 .HasForeignKey(d => d.PanelistId)

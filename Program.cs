@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using HiringPortalWebAPI.Data;
 using HiringPortalWebAPI.Repositories;
 using HiringPortalWebAPI.Utilities;
@@ -16,6 +17,10 @@ options.UseNpgsql(builder.Configuration.GetConnectionString("ProdDB")));
 builder.Services.AddSingleton<Utils>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IInterviewRepository, InterviewRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped(x => new BlobServiceClient(builder.Configuration.GetValue<string>("Blob:ConnectionStrings")));
+
 
 
 
@@ -81,7 +86,9 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

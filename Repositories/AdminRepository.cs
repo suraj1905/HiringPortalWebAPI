@@ -41,6 +41,7 @@ namespace HiringPortalWebAPI.Repositories
             }
         }
 
+
         public async Task<Credential> CreateCredentials(Credential credential)
         {
             try
@@ -81,11 +82,35 @@ namespace HiringPortalWebAPI.Repositories
             }
         }
 
+        public async Task<List<Candidate>> GetCandidateProfiles()
+        {
+             try
+            {
+                return await _context.Candidates.ToListAsync();
+            }
+            catch(Exception) 
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<Job>> GetJobs()
+        {
+            try
+            {
+                return await _context.Jobs.ToListAsync();
+            }
+            catch(Exception) 
+            {
+                throw;
+            }
+        }
+
         public async Task<List<Panelist>> GetPanelists()
         {
             try
             {
-                return await _context.Panelists.ToListAsync();
+                return await _context.Panelists.Include(p=> p.Slots).ToListAsync();
             }
             catch(Exception) 
             {

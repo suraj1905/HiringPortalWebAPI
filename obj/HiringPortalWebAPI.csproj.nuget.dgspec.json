@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\61073089\\Desktop\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj": {}
+    "C:\\Users\\61073089\\Desktop\\Hiring Portal\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\61073089\\Desktop\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj": {
+    "C:\\Users\\61073089\\Desktop\\Hiring Portal\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\61073089\\Desktop\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj",
+        "projectUniqueName": "C:\\Users\\61073089\\Desktop\\Hiring Portal\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj",
         "projectName": "HiringPortalWebAPI",
-        "projectPath": "c:\\Users\\61073089\\Desktop\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj",
+        "projectPath": "C:\\Users\\61073089\\Desktop\\Hiring Portal\\HiringPortalWebAPI\\HiringPortalWebAPI.csproj",
         "packagesPath": "C:\\Users\\61073089\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\61073089\\Desktop\\HiringPortalWebAPI\\obj\\",
+        "outputPath": "C:\\Users\\61073089\\Desktop\\Hiring Portal\\HiringPortalWebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\61073089\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,7 +43,15 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.19.1, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.4, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[8.0.4, )"
             },

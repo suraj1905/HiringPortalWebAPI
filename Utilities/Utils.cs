@@ -153,6 +153,21 @@ namespace HiringPortalWebAPI.Utilities
             }
             return true;
         }
+
+        public string GenerateFileName(string fileName, string candidateName){
+            try
+            {
+                string strFileName = string.Empty;
+                string[] strName = fileName.Split('.');
+                strFileName = candidateName + DateTime.Now.ToUniversalTime().ToString("yyyyMMdd\\THHmmssff")+"."+
+                strName[strName.Length-1];
+                return strFileName;
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace HiringPortalWebAPI.Models;
 
@@ -19,5 +20,6 @@ public partial class Candidate
 
     public string Resume { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual ICollection<Interview> Interviews { get; set; } = new List<Interview>();
 }

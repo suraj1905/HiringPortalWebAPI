@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace HiringPortalWebAPI.Models;
 
@@ -13,5 +14,8 @@ public partial class Slot
 
     public TimeOnly TimeAvailable { get; set; }
 
-    public virtual Panelist Panelist { get; set; } = null!;
+    public bool IsBooked { get; set; }
+
+    [JsonIgnore]
+    public virtual Panelist? Panelist { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using HiringPortalWebAPI.Models;
+﻿using Azure.Storage.Blobs;
+using HiringPortalWebAPI.Models;
 using HiringPortalWebAPI.Repositories;
 using HiringPortalWebAPI.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,17 +13,20 @@ namespace HiringPortalWebAPI.Controllers
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "AdminPolicy")]
     public class AdminController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
         private readonly IAdminRepository _repository;
 
         private readonly IEmployeeRepository _employeeRepository;
         private readonly Utils _utils;
 
 
-        public AdminController(IAdminRepository repository,Utils utils,IEmployeeRepository employeeRepository)
+        public AdminController(IAdminRepository repository,Utils utils,IEmployeeRepository employeeRepository,IConfiguration configuration)
         {
             _repository = repository;
             _utils = utils;
             _employeeRepository = employeeRepository;
+            _configuration = configuration;
         }
 
         //Admin Login
@@ -92,7 +96,7 @@ namespace HiringPortalWebAPI.Controllers
                 };
                 cred = await _repository.CreateCredentials(cred);
                 _utils.SendEmail(cred,password);
-                return Ok();
+                return Ok(input);
             }
             catch (Exception ex)
             {
@@ -102,11 +106,33 @@ namespace HiringPortalWebAPI.Controllers
 
         //Method for adding candidate profiles
         [HttpPost("AddCandidateProfile")]
-        public async Task<IActionResult> AddCandidateProfile([FromBody] Candidate input)
+        public async Task<IActionResult> AddCandidateProfile()
         {
             try
             {
-                await _repository.AddCandidateProfile(input);
+                Candidate candidate = new Candidate();
+                var formCollection = await Request.ReadFormAsync();
+                candidate.Name = Request.Form["name"]!;
+                candidate.Email = Request.Form["email"]!;
+                candidate.PhoneNo = Int32.Parse(Request.Form["phoneNo"]!);
+                candidate.YearsOfExperience = Decimal.Parse(Request.Form["yearsOfExperience"]!);
+                candidate.Skills = Request.Form["skills"]!;
+                var ResumeFile = formCollection.Files.First();
+                var fileName = _utils.GenerateFileName(ResumeFile.FileName, ResumeFile.Name);
+                BlobContainerClient containerClient = new BlobContainerClient(_configuration["Blob:ConnectionStrings"],_configuration["Blob:ContainerName"]);
+                try
+                { 
+                    BlobClient blobClient = containerClient.GetBlobClient(fileName);
+                    using(Stream stream = ResumeFile.OpenReadStream())
+                    {
+                        await blobClient.UploadAsync(stream);
+                    }
+                    candidate.Resume = blobClient.Uri.AbsoluteUri;
+                }
+                catch(Exception ex){
+                    throw;
+                }
+                await _repository.AddCandidateProfile(candidate);
                 return Ok();
             }
             catch (Exception ex)
@@ -123,6 +149,36 @@ namespace HiringPortalWebAPI.Controllers
             {
                 List<Panelist> panelists = await _repository.GetPanelists();
                 return Ok(panelists);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+        //Method to get all panelists
+        [HttpGet("GetAllJobs")]
+        public async Task<IActionResult> GetAllJobs()
+        {
+            try
+            {
+                List<Job> jobs = await _repository.GetJobs();
+                return Ok(jobs);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+            }
+        }
+
+        //Method to get all panelists
+        [HttpGet("GetCandidateProfiles")]
+        public async Task<IActionResult> GetCandidateProfiles()
+        {
+            try
+            {
+                List<Candidate> candidates = await _repository.GetCandidateProfiles();
+                return Ok(candidates);
             }
             catch (Exception ex)
             {
