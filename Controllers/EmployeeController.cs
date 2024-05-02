@@ -36,7 +36,8 @@ namespace HiringPortalWebAPI.Controllers
                 {
                     string token = _utils.GenerateToken(cred.PanelistId, cred.UserId, "Employee");
                     var response = new {
-                        AccessToken = token
+                        AccessToken = token,
+                        PanelistId = cred.PanelistId
                     };
                     return Ok(response);
                 }
