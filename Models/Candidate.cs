@@ -12,7 +12,7 @@ public partial class Candidate
 
     public string Email { get; set; } = null!;
 
-    public int PhoneNo { get; set; }
+    public long PhoneNo { get; set; }
 
     public decimal YearsOfExperience { get; set; }
 

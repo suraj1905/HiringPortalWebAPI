@@ -114,7 +114,7 @@ namespace HiringPortalWebAPI.Controllers
                 var formCollection = await Request.ReadFormAsync();
                 candidate.Name = Request.Form["name"]!;
                 candidate.Email = Request.Form["email"]!;
-                candidate.PhoneNo = Int32.Parse(Request.Form["phoneNo"]!);
+                candidate.PhoneNo = Int64.Parse(Request.Form["phoneNo"]!);
                 candidate.YearsOfExperience = Decimal.Parse(Request.Form["yearsOfExperience"]!);
                 candidate.Skills = Request.Form["skills"]!;
                 var ResumeFile = formCollection.Files.First();
